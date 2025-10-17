@@ -4,14 +4,19 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.robot.Robot;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+
+import java.util.Date;
+import java.util.Objects;
 
 public class ApplicationGUI extends Application {
     //Método obrigatório para trabalhar com interface
@@ -43,6 +48,17 @@ public class ApplicationGUI extends Application {
                 btnDelete,
                 btnExit);
 
+        Label firstInfo = new Label("Escolha a opção do menu: ");
+        StackPane contentArea = new StackPane(firstInfo);
+
+        //Função dos botões
+        btnCreate.setOnAction(e -> contentArea.getChildren().setAll(getRegisterForm()));
+        btnExit.setOnAction(e -> stage.close());
+
+
+        root.setLeft(leftMenu);
+        root.setCenter(contentArea);
+
         //Modificando tamanho dos botões
         menuTitle.setPrefSize(40, 20);
         menuTitle.setAlignment(Pos.CENTER);
@@ -53,6 +69,11 @@ public class ApplicationGUI extends Application {
         btnDelete.setPrefSize(120, 33);
         btnExit.setPrefSize(120, 33);
 
+
+        //Imagem title
+        //Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("static/img/friends.png")));
+
+
         root.setLeft(leftMenu);
 
         //Criando uma cena
@@ -61,6 +82,50 @@ public class ApplicationGUI extends Application {
 
     }
 
+
+    private VBox getRegisterForm() {
+        VBox vBox = new VBox(10);
+        vBox.setPadding((new Insets(10)));
+
+        Label lbTitle = new Label("Cadastrar");
+        TextField tfFirstName = new TextField();
+        tfFirstName.setPromptText("Nome");
+        lbTitle.setAlignment(Pos.CENTER);
+        lbTitle.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+
+        TextField tfSurName = new TextField("Sobrenome");
+        tfSurName.setPromptText("Sobrenome");
+
+        ComboBox<String> cbGender = new ComboBox<>();
+        cbGender.getItems().addAll("Masculino", "Feminino", "Outros");
+        cbGender.setPromptText("Gênero");
+        cbGender.setPrefSize(Double.MAX_VALUE, 0);
+
+        DatePicker dpBirtDate = new DatePicker();
+        dpBirtDate.setPromptText("Data de nascimento");
+        dpBirtDate.setPrefSize(Double.MAX_VALUE, 0);
+
+        Button btnSave = new Button("Salvar");
+        btnSave.setPrefSize(Double.MAX_VALUE, 50);
+        btnSave.setOnAction( e -> showAlert("Sucesso", "Cadastro realizado (Simulação)!"));
+
+        //Padding/Espaços entre os elementos
+        Region spacer1 = new Region();
+        spacer1.setMinHeight(15);
+
+
+        vBox.getChildren().addAll(lbTitle, tfFirstName, tfSurName, cbGender, dpBirtDate, spacer1, btnSave);
+
+        return vBox;
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+
+    }
 
     //Classe driver para rodar a interface
     public static void main(String[] args) {
