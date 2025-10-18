@@ -3,6 +3,7 @@ package br.com.fiap2espa.demo;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -15,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 
@@ -53,6 +55,7 @@ public class ApplicationGUI extends Application {
 
         //Função dos botões
         btnCreate.setOnAction(e -> contentArea.getChildren().setAll(getRegisterForm()));
+        btnRead.setOnAction(e-> contentArea.getChildren().setAll(getFriendsList()));
         btnExit.setOnAction(e -> stage.close());
 
 
@@ -117,6 +120,15 @@ public class ApplicationGUI extends Application {
         vBox.getChildren().addAll(lbTitle, tfFirstName, tfSurName, cbGender, dpBirtDate, spacer1, btnSave);
 
         return vBox;
+    }
+
+
+    private TableView<String> getFriendsList() {
+        TableView<String> tableView = new TableView<>();
+        TableColumn<String, String> column = new TableColumn<>("Lista de amigos (Simulados)");
+        tableView.getColumns().add(column);
+        tableView.getItems().addAll("Kayque", "Bianca", "Rafaela", "Ana");
+        return tableView;
     }
 
     private void showAlert(String title, String message) {
